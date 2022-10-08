@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {Gender, Length, names, Popularity} from "~/data";
-import {$ref} from "vue/macros";
+import { $ref } from "vue/macros";
+import { Gender, Length, names, Popularity } from "~/data";
 
-interface OptionsState {
+export interface OptionsState {
   gender: Gender,
   popularity: Popularity,
   length: Length
@@ -15,6 +15,23 @@ const options = $ref<OptionsState>({
 });
 
 let selectedNames = $ref<string[]>([]);
+const optionSections = [
+  {
+    title: '1) Choose a gender',
+    category: 'gender',
+    buttons: [Gender.BOY, Gender.GIRL, Gender.UNISEX]
+  },
+  {
+    title: '2) Choose the name\'s popularity ',
+    category: 'popularity',
+    buttons: [Popularity.TRENDY, Popularity.UNIQUE]
+  },
+  {
+    title: '3) Choose the name\'s length',
+    category: 'length',
+    buttons: [Length.SHORT, Length.LONG, Length.ALL]
+  },
+]
 
 const onGenerateNames = () => {
   const filteredNames = names.filter(name => name.gender === options.gender)
@@ -32,81 +49,28 @@ const onGenerateNames = () => {
     <h1>Baby Name Generator</h1>
     <p>Choose your options and click the "Find Name" button below</p>
     <div class="card px-5 py-3 border-0 shadow-sm w-100">
-      <div class="mb-3">
-        <h5 class="text-center">1) Choose a gender </h5>
-        <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-outline-primary"
-                  :class="options.gender === Gender.BOY && 'active'"
-                  @click="options.gender = Gender.BOY"
-          >Boy
-          </button>
-          <button type="button" class="btn btn-outline-primary"
-                  :class="options.gender === Gender.UNISEX && 'active'"
-                  @click="options.gender = Gender.UNISEX"
-          >
-            Unisex
-          </button>
-          <button type="button" class="btn btn-outline-primary"
-                  :class="options.gender === Gender.GIRL && 'active'"
-                  @click="options.gender = Gender.GIRL"
-          >Girl
-          </button>
-        </div>
-      </div>
-      <div class="mb-3">
-        <h5 class="text-center"> 2) Choose the name's popularity </h5>
-        <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-outline-primary"
-                  :class="options.popularity === Popularity.TRENDY && 'active'"
-                  @click="options.popularity = Popularity.TRENDY"
-          >
-            Trendy
-          </button>
-          <button type="button" class="btn btn-outline-primary"
-                  :class="options.popularity === Popularity.UNIQUE && 'active'"
-                  @click="options.popularity = Popularity.UNIQUE"
-          >
-            Unique
-          </button>
-        </div>
-      </div>
-      <div class="mb-3">
-        <h5 class="text-center">3) Choose the name's length </h5>
-        <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === Length.LONG && 'active'"
-                  @click="options.length = Length.LONG"
-          >Long
-          </button>
-          <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === Length.ALL && 'active'"
-                  @click="options.length = Length.ALL"
-          >All
-          </button>
-          <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === Length.SHORT && 'active'"
-                  @click="options.length = Length.SHORT"
-          >Short
-          </button>
-        </div>
-        <div class="d-flex justify-content-center">
-          <button
-              class="btn btn-primary mt-4"
-              @click="onGenerateNames"
-          >Generate Names
-          </button>
-        </div>
-        <!--          names -->
-        <div class="d-flex justify-content-center mt-4">
-          <div
-              class="d-inline-flex  justify-content-center align-items-center gap-2 badge bg-primary px-3 py-2 mx-1"
-              v-for="(name,idx) in selectedNames"
-              :key="idx"
-          >
-            {{ name }}
-            <span class="px-2 py-1 bg-danger text-white" style="border-radius: 50%">x</span>
-          </div>
-        </div>
+
+      <BaseOption
+          v-for="section in optionSections"
+          :key="section.toString()"
+          :section="section"
+          :options="options"
+      />
+
+<div>
+<button class="btn btn-primary my-3"
+@click="onGenerateNames"
+>Find Names</button>
+</div>
+      <!--          names -->
+      <div class="d-flex justify-content-center mt-4">
+        <CardName 
+        v-for="(name,index) in selectedNames"
+        :key="index"
+        :name="name"
+          :index="index"
+        @remove="selectedNames.splice(index,1)"
+        />
       </div>
     </div>
   </div>
