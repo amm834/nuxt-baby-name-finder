@@ -95,8 +95,17 @@ const onGenerateNames = () => {
               @click="onGenerateNames"
           >Generate Names
           </button>
-
-          {{ selectedNames }}
+        </div>
+        <!--          names -->
+        <div class="d-flex justify-content-center mt-4">
+          <div
+              class="d-inline-flex  justify-content-center align-items-center gap-2 badge bg-primary px-3 py-2 mx-1"
+              v-for="(name,idx) in selectedNames"
+              :key="idx"
+          >
+            {{ name }}
+            <span class="px-2 py-1 bg-danger text-white" style="border-radius: 50%">x</span>
+          </div>
         </div>
       </div>
     </div>
