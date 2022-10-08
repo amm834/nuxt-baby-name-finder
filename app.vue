@@ -1,16 +1,33 @@
 <script setup lang="ts">
-type Gender = 'Girl' | 'Boy';
-type Popularity = 'Trendy' | 'Unique';
-type LengthOfName = 'Long' | 'Short' | 'All';
+import {reactify} from "@vueuse/shared";
 
-const options = $ref<{
+enum Gender {
+  BOY = 'Boy',
+  GIRL = 'Girl',
+  UNISEX = 'Unique'
+}
+
+enum Popularity {
+  TRENDY = 'Trendy',
+  UNIQUE = 'Unique'
+}
+
+enum LengthOfName {
+  LONG = "Long",
+  SHORT = 'Short',
+  ALL = 'All'
+}
+
+interface OptionsState {
   gender: Gender,
   popularity: Popularity,
   length: LengthOfName
-}>({
-  gender: 'Girl',
+}
+
+const options = reactive<OptionsState>({
+  gender: "Boy",
   popularity: 'Unique',
-  length: "Long"
+  length: "Long",
 });
 </script>
 
@@ -22,22 +39,24 @@ const options = $ref<{
       <div class="mb-3">
         <h5 class="text-center">1) Choose a gender </h5>
         <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-outline-primary" :class="options.gender === 'Boy' && 'active'">Boy
+          <button type="button" class="btn btn-outline-primary" :class="options.gender === Gender.BOY && 'active'">Boy
           </button>
-          <button type="button" class="btn btn-outline-primary" :class="options.gender === 'Unisex' && 'active'">
+          <button type="button" class="btn btn-outline-primary" :class="options.gender === Gender.UNISEX && 'active'">
             Unisex
           </button>
-          <button type="button" class="btn btn-outline-primary" :class="options.gender === 'Girl' && 'active'">Girl
+          <button type="button" class="btn btn-outline-primary" :class="options.gender === Gender.GIRL && 'active'">Girl
           </button>
         </div>
       </div>
       <div class="mb-3">
         <h5 class="text-center"> 2) Choose the name's popularity </h5>
         <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-outline-primary" :class="options.popularity === 'Trendy' && 'active'">
+          <button type="button" class="btn btn-outline-primary"
+                  :class="options.popularity === Popularity.TRENDY && 'active'">
             Trendy
           </button>
-          <button type="button" class="btn btn-outline-primary" :class="options.popularity === 'Unique' && 'active'">
+          <button type="button" class="btn btn-outline-primary"
+                  :class="options.popularity === Popularity.UNIQUE && 'active'">
             Unique
           </button>
         </div>
@@ -45,11 +64,14 @@ const options = $ref<{
       <div class="mb-3">
         <h5 class="text-center">3) Choose the name's length </h5>
         <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-outline-primary" :class="options.length === 'Long' && 'active'">Long
+          <button type="button" class="btn btn-outline-primary"
+                  :class="options.length === LengthOfName.LONG && 'active'">Long
           </button>
-          <button type="button" class="btn btn-outline-primary" :class="options.length === 'All' && 'active'">All
+          <button type="button" class="btn btn-outline-primary"
+                  :class="options.length === LengthOfName.ALL && 'active'">All
           </button>
-          <button type="button" class="btn btn-outline-primary" :class="options.length === 'Short' && 'active'">Short
+          <button type="button" class="btn btn-outline-primary"
+                  :class="options.length === LengthOfName.SHORT && 'active'">Short
           </button>
         </div>
       </div>
