@@ -25,9 +25,9 @@ interface OptionsState {
 }
 
 const options = reactive<OptionsState>({
-  gender: "Boy",
-  popularity: 'Unique',
-  length: "Long",
+  gender: Gender.GIRL,
+  popularity: Popularity.UNIQUE,
+  length: LengthOfName.LONG,
 });
 </script>
 
@@ -39,12 +39,21 @@ const options = reactive<OptionsState>({
       <div class="mb-3">
         <h5 class="text-center">1) Choose a gender </h5>
         <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-outline-primary" :class="options.gender === Gender.BOY && 'active'">Boy
+          <button type="button" class="btn btn-outline-primary"
+                  :class="options.gender === Gender.BOY && 'active'"
+                  @click="options.gender = Gender.BOY"
+          >Boy
           </button>
-          <button type="button" class="btn btn-outline-primary" :class="options.gender === Gender.UNISEX && 'active'">
+          <button type="button" class="btn btn-outline-primary"
+                  :class="options.gender === Gender.UNISEX && 'active'"
+                  @click="options.gender = Gender.UNISEX"
+          >
             Unisex
           </button>
-          <button type="button" class="btn btn-outline-primary" :class="options.gender === Gender.GIRL && 'active'">Girl
+          <button type="button" class="btn btn-outline-primary"
+                  :class="options.gender === Gender.GIRL && 'active'"
+                  @click="options.gender = Gender.GIRL"
+          >Girl
           </button>
         </div>
       </div>
@@ -52,11 +61,15 @@ const options = reactive<OptionsState>({
         <h5 class="text-center"> 2) Choose the name's popularity </h5>
         <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-outline-primary"
-                  :class="options.popularity === Popularity.TRENDY && 'active'">
+                  :class="options.popularity === Popularity.TRENDY && 'active'"
+                  @click="options.popularity = Popularity.TRENDY"
+          >
             Trendy
           </button>
           <button type="button" class="btn btn-outline-primary"
-                  :class="options.popularity === Popularity.UNIQUE && 'active'">
+                  :class="options.popularity === Popularity.UNIQUE && 'active'"
+                  @click="options.popularity = Popularity.UNIQUE"
+          >
             Unique
           </button>
         </div>
@@ -65,13 +78,19 @@ const options = reactive<OptionsState>({
         <h5 class="text-center">3) Choose the name's length </h5>
         <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === LengthOfName.LONG && 'active'">Long
+                  :class="options.length === LengthOfName.LONG && 'active'"
+                  @click="options.length = LengthOfName.LONG"
+          >Long
           </button>
           <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === LengthOfName.ALL && 'active'">All
+                  :class="options.length === LengthOfName.ALL && 'active'"
+                  @click="options.length = LengthOfName.ALL"
+          >All
           </button>
           <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === LengthOfName.SHORT && 'active'">Short
+                  :class="options.length === LengthOfName.SHORT && 'active'"
+                  @click="options.length = LengthOfName.SHORT"
+          >Short
           </button>
         </div>
       </div>
