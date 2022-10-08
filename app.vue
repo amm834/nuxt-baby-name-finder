@@ -1,34 +1,21 @@
 <script setup lang="ts">
-import {reactify} from "@vueuse/shared";
-
-enum Gender {
-  BOY = 'Boy',
-  GIRL = 'Girl',
-  UNISEX = 'Unique'
-}
-
-enum Popularity {
-  TRENDY = 'Trendy',
-  UNIQUE = 'Unique'
-}
-
-enum LengthOfName {
-  LONG = "Long",
-  SHORT = 'Short',
-  ALL = 'All'
-}
+import {Gender, Popularity, Length} from "~/data";
+import {$ref} from "vue/macros";
 
 interface OptionsState {
   gender: Gender,
   popularity: Popularity,
-  length: LengthOfName
+  length: Length
 }
 
 const options = reactive<OptionsState>({
   gender: Gender.GIRL,
   popularity: Popularity.UNIQUE,
-  length: LengthOfName.LONG,
+  length: Length.LONG,
 });
+
+const selectedNames = $ref<string[]>([]);
+
 </script>
 
 <template>
@@ -78,18 +65,18 @@ const options = reactive<OptionsState>({
         <h5 class="text-center">3) Choose the name's length </h5>
         <div class="btn-group mt-3 d-flex justify-content-center" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === LengthOfName.LONG && 'active'"
-                  @click="options.length = LengthOfName.LONG"
+                  :class="options.length === Length.LONG && 'active'"
+                  @click="options.length = Length.LONG"
           >Long
           </button>
           <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === LengthOfName.ALL && 'active'"
-                  @click="options.length = LengthOfName.ALL"
+                  :class="options.length === Length.ALL && 'active'"
+                  @click="options.length = Length.ALL"
           >All
           </button>
           <button type="button" class="btn btn-outline-primary"
-                  :class="options.length === LengthOfName.SHORT && 'active'"
-                  @click="options.length = LengthOfName.SHORT"
+                  :class="options.length === Length.SHORT && 'active'"
+                  @click="options.length = Length.SHORT"
           >Short
           </button>
         </div>
