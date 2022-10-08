@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Gender, Popularity, Length} from "~/data";
+import {Gender, Length, names, Popularity} from "~/data";
 import {$ref} from "vue/macros";
 
 interface OptionsState {
@@ -8,14 +8,23 @@ interface OptionsState {
   length: Length
 }
 
-const options = reactive<OptionsState>({
+const options = $ref<OptionsState>({
   gender: Gender.GIRL,
   popularity: Popularity.UNIQUE,
   length: Length.LONG,
 });
 
-const selectedNames = $ref<string[]>([]);
+let selectedNames = $ref<string[]>([]);
 
+const onGenerateNames = () => {
+  const filteredNames = names.filter(name => name.gender === options.gender)
+      .filter(name => name.popularity === options.popularity)
+      .filter(name => {
+        if (Length.ALL) return true;
+        else return name.length === options.length;
+      })
+  selectedNames = filteredNames.map(name => name.name);
+}
 </script>
 
 <template>
@@ -79,6 +88,15 @@ const selectedNames = $ref<string[]>([]);
                   @click="options.length = Length.SHORT"
           >Short
           </button>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button
+              class="btn btn-primary mt-4"
+              @click="onGenerateNames"
+          >Generate Names
+          </button>
+
+          {{ selectedNames }}
         </div>
       </div>
     </div>
